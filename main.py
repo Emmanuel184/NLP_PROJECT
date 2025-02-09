@@ -1,7 +1,7 @@
-import util
+import utils.data as data
 
 def main():
-    util.print_subs()
+    data.print_subs()
 
 if __name__ == "__main__":
     main()
