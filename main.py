@@ -1,6 +1,8 @@
 from Theme_Classification import ThemeClassifier
 import streamlit as st
 import matplotlib.pyplot as plt
+from character_chatbot import CharacterChatbot
+import os
 
 def get_themes(theme_list, subtitles_path):
     
@@ -12,20 +14,27 @@ def get_themes(theme_list, subtitles_path):
     output_df = output_df[theme_list].sum().reset_index()
     output_df.columns = ["Theme", "Score"]
 
-    # output_chart = gr.BarPlot(
-    #     output_df,
-    #     x="Theme",
-    #     y="Score",
-    #     title="Series Theme",
-    #     tooltip=["Theme", "Score"],
-    #     vertical=False,
-    #     width=500,
-    #     height=200
-    # )
+    output_chart = gr.BarPlot(
+        output_df,
+        x="Theme",
+        y="Score",
+        title="Series Theme",
+        tooltip=["Theme", "Score"],
+        vertical=False,
+        width=500,
+        height=200
+    )
 
     return output_df
 
+def chat_with_bot(message, history):
+    charcater_chatbot = CharacterChatbot("avacado10/office_llama_3_8b", huggingface_token=os.getenv("HUGGINGFACE_TOKEN"))
+    output = charcater_chatbot(message=message, history=history)
+    output = output["content"].strip()
+    return output
 def main():
+
+    chat_with_bot("something", ["nothing"])
 
     col_left, col_right = st.columns(2)
     plot_placeholder = col_left.empty()
